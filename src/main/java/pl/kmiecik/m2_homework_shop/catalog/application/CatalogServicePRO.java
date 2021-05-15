@@ -3,14 +3,18 @@ package pl.kmiecik.m2_homework_shop.catalog.application;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import pl.kmiecik.m2_homework_shop.catalog.domain.CatalogRepository;
+import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase;
+import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCasePLUS;
+import pl.kmiecik.m2_homework_shop.catalog.domain.Product;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @Profile("PRO")
-public class CatalogServicePRO extends CatalogServicePLUS {
+class CatalogServicePRO implements CatalogUseCase {
 
+    private CatalogUseCasePLUS catalogServicePLUS;
 
   /*  @Value("${shop-param.vat}")
     private String vat;*/
@@ -19,15 +23,20 @@ public class CatalogServicePRO extends CatalogServicePLUS {
     @Value("${shop-param.discount}")
     private String dicount;
 
-    public CatalogServicePRO(CatalogRepository repository) {
-        super(repository);
-    }
-
 
     @Override
+    public List<Product> findAllProducts() {
+        return catalogServicePLUS.findAllProducts();
+    }
+
+    @Override
+    public void addProduct(CreateProductCommand command) {
+        catalogServicePLUS.addProduct(command);
+    }
+
     public BigDecimal countTotalPrice() {
         //    BigDecimal taxRate = super.getTaxRate(this.vat);
-        BigDecimal priceWithTax = super.countTotalPrice();
+        BigDecimal priceWithTax = catalogServicePLUS.countTotalPrice();
         BigDecimal discount = priceWithTax.multiply(getDiscont(this.dicount));
 
         return priceWithTax.subtract(discount);

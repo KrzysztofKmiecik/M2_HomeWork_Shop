@@ -1,10 +1,11 @@
 package pl.kmiecik.m2_homework_shop;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import pl.kmiecik.m2_homework_shop.catalog.application.CatalogServiceBASIC;
+import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase;
 
 import java.math.BigDecimal;
 
@@ -14,12 +15,10 @@ import static pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCas
 @AllArgsConstructor
 public class Init {
 
-    private final CatalogServiceBASIC service;
+    private  CatalogUseCase service;
 
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
-
-
         service.addProduct(new CreateProductCommand("book1", new BigDecimal(100)));
         service.addProduct(new CreateProductCommand("book2", new BigDecimal(200)));
         service.addProduct(new CreateProductCommand("book3", new BigDecimal(300)));

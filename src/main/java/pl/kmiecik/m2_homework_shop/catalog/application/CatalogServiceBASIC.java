@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Profile("BASIC")
-public class CatalogServiceBASIC implements CatalogUseCase {
+class CatalogServiceBASIC implements CatalogUseCase {
 
     private final CatalogRepository repository;
 
