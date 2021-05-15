@@ -3,8 +3,8 @@ package pl.kmiecik.m2_homework_shop.catalog.application;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase;
-import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCasePLUS;
+import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase_PLUS;
+import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase_PRO;
 import pl.kmiecik.m2_homework_shop.catalog.domain.Product;
 
 import java.math.BigDecimal;
@@ -12,9 +12,9 @@ import java.util.List;
 
 @Service
 @Profile("PRO")
-class CatalogServicePRO implements CatalogUseCase {
+class CatalogServicePRO implements CatalogUseCase_PRO {
 
-    private CatalogUseCasePLUS catalogServicePLUS;
+    private CatalogUseCase_PLUS catalogServicePLUS;
 
   /*  @Value("${shop-param.vat}")
     private String vat;*/

@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase;
-import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCasePLUS;
+import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase.CreateProductCommand;
+import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase_BASIC;
+import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase_PLUS;
+import pl.kmiecik.m2_homework_shop.catalog.domain.CatalogRepository;
 import pl.kmiecik.m2_homework_shop.catalog.domain.Product;
 
 import java.math.BigDecimal;
@@ -14,14 +17,10 @@ import java.util.List;
 
 @Service
 @Profile({"PLUS"})
-class CatalogServicePLUS implements CatalogUseCase {
+@AllArgsConstructor
+class CatalogServicePLUS implements CatalogUseCase_PLUS {
 
-    private CatalogUseCase catalogServiceBASIC;
-
-    @Autowired
-    public void setCatalogServiceBASIC(CatalogUseCase catalogServiceBASIC) {
-        this.catalogServiceBASIC = catalogServiceBASIC;
-    }
+    private final CatalogUseCase_BASIC catalogUseCase_basic;
 
     @Value("${shop-param.vat}")
     private String vat;
@@ -29,17 +28,18 @@ class CatalogServicePLUS implements CatalogUseCase {
 
     @Override
     public List<Product> findAllProducts() {
-        return catalogServiceBASIC.findAllProducts();
+        return catalogUseCase_basic.findAllProducts();
     }
 
     @Override
     public void addProduct(CreateProductCommand command) {
-        catalogServiceBASIC.addProduct(command);
+        catalogUseCase_basic.addProduct(command);
     }
+
 
     public BigDecimal countTotalPrice() {
         BigDecimal taxRate = getTaxRate(this.vat);
-        return catalogServiceBASIC.countTotalPrice().multiply(taxRate);
+        return catalogUseCase_basic.countTotalPrice().multiply(taxRate);
     }
 
     protected BigDecimal getTaxRate(String vat) {
