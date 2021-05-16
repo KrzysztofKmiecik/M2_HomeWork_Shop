@@ -3,7 +3,6 @@ package pl.kmiecik.m2_homework_shop.catalog.application;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase;
 import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase_BASIC;
 import pl.kmiecik.m2_homework_shop.catalog.domain.CatalogRepository;
 import pl.kmiecik.m2_homework_shop.catalog.domain.Product;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-@Profile("BASIC")
+@Profile({"BASIC", "PLUS", "PRO"})
 class CatalogServiceBASIC implements CatalogUseCase_BASIC {
 
     private final CatalogRepository repository;
@@ -32,8 +31,8 @@ class CatalogServiceBASIC implements CatalogUseCase_BASIC {
     public BigDecimal countTotalPrice() {
         return repository.findAll()
                 .stream()
-                .map(product-> product.getPrice())
-                .reduce(BigDecimal.ZERO,BigDecimal::add);
+                .map(product -> product.getPrice())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 

@@ -1,5 +1,6 @@
 package pl.kmiecik.m2_homework_shop.catalog.application;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,11 @@ class CatalogServicePRO implements CatalogUseCase_PRO {
     @Value("${shop-param.discount}")
     private String dicount;
 
+    @Autowired
+    CatalogServicePRO(CatalogUseCase_PLUS catalogServicePLUS) {
+        this.catalogServicePLUS = catalogServicePLUS;
+    }
+
 
     @Override
     public List<Product> findAllProducts() {
@@ -34,6 +40,7 @@ class CatalogServicePRO implements CatalogUseCase_PRO {
         catalogServicePLUS.addProduct(command);
     }
 
+    @Override
     public BigDecimal countTotalPrice() {
         //    BigDecimal taxRate = super.getTaxRate(this.vat);
         BigDecimal priceWithTax = catalogServicePLUS.countTotalPrice();

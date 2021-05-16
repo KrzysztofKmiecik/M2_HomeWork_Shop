@@ -7,7 +7,7 @@ import pl.kmiecik.m2_homework_shop.catalog.domain.Product;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Profile("BASIC")
+@Profile({"BASIC","PLUS","PRO"})
 public interface CatalogUseCase_BASIC extends CatalogUseCase {
 
     @Override

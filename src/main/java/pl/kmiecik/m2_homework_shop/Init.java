@@ -1,8 +1,10 @@
 package pl.kmiecik.m2_homework_shop;
 
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase;
@@ -12,10 +14,21 @@ import java.math.BigDecimal;
 import static pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase.CreateProductCommand;
 
 @Component
-@AllArgsConstructor
 public class Init {
 
+    final String beanName="catalogServiceBASIC";
     private  CatalogUseCase service;
+
+    @Value("${spring.profiles.active}")
+    private String activProfile;
+
+
+
+    @Autowired
+    public Init(@Qualifier(beanName) CatalogUseCase service) {
+        this.service = service;
+    }
+
 
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
@@ -25,7 +38,7 @@ public class Init {
         service.addProduct(new CreateProductCommand("book4", new BigDecimal(400)));
         service.addProduct(new CreateProductCommand("book5", new BigDecimal(500)));
 
-        System.out.println(service.findAllProducts());
+        service.findAllProducts().forEach(System.out::println);
         System.out.println("TOTAL price = " + service.countTotalPrice());
     }
 }
