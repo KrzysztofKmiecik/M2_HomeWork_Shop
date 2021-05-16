@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase;
@@ -15,18 +14,16 @@ import static pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCas
 
 @Component
 public class Init {
+    private CatalogUseCase service;
 
-    final String beanName="catalogServiceBASIC";
-    private  CatalogUseCase service;
-
-    @Value("${spring.profiles.active}")
-    private String activProfile;
-
+/*    @Value("${spring.profiles.active}")
+    private String activProfile;*/
 
 
     @Autowired
-    public Init(@Qualifier(beanName) CatalogUseCase service) {
+    public Init(@Qualifier("MyServiceAlias") CatalogUseCase service) {
         this.service = service;
+
     }
 
 

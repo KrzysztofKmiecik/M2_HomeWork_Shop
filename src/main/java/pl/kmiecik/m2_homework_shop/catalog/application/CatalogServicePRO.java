@@ -17,8 +17,8 @@ class CatalogServicePRO implements CatalogUseCase_PRO {
 
     private CatalogUseCase_PLUS catalogServicePLUS;
 
-  /*  @Value("${shop-param.vat}")
-    private String vat;*/
+    @Value("${shop-param.vat}")
+    private String vat;
 
 
     @Value("${shop-param.discount}")
