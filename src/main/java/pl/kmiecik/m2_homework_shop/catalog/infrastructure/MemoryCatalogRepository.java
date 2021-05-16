@@ -5,13 +5,12 @@ import pl.kmiecik.m2_homework_shop.catalog.domain.CatalogRepository;
 import pl.kmiecik.m2_homework_shop.catalog.domain.Product;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class MemoryCatalogRepository implements CatalogRepository {
 
     private final Map<Long, Product> storage = new HashMap<>();
-    private  Long myId=0L;
+    private Long myId = 0L;
 
 
     @Override

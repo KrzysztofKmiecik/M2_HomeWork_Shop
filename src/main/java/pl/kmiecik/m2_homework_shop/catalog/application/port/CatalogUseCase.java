@@ -1,7 +1,6 @@
 package pl.kmiecik.m2_homework_shop.catalog.application.port;
 
 import lombok.Value;
-import org.springframework.context.annotation.Profile;
 import pl.kmiecik.m2_homework_shop.catalog.domain.Product;
 
 import java.math.BigDecimal;
@@ -25,6 +24,8 @@ public interface CatalogUseCase {
             return new Product(name, price);
         }
     }
+
+    String showProfile();
 
 
 }

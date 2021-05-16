@@ -5,11 +5,9 @@ import org.springframework.context.annotation.Profile;
 import java.math.BigDecimal;
 
 @Profile("PLUS")
-public interface CatalogUseCase_PRO extends CatalogUseCase_PLUS{
+public interface CatalogUseCase_PRO extends CatalogUseCase_PLUS {
     @Override
     BigDecimal countTotalPrice();
-
-
 
 
 }

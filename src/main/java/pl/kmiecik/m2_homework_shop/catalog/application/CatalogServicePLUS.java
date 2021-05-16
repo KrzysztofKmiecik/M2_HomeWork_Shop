@@ -10,6 +10,7 @@ import pl.kmiecik.m2_homework_shop.catalog.application.port.CatalogUseCase_PLUS;
 import pl.kmiecik.m2_homework_shop.catalog.domain.Product;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -17,6 +18,11 @@ import java.util.List;
 class CatalogServicePLUS implements CatalogUseCase_PLUS {
 
     private final CatalogUseCase_BASIC catalogUseCase_basic;
+
+
+    public String getVat() {
+        return vat;
+    }
 
     @Value("${shop-param.vat}")
     private String vat;
@@ -27,9 +33,9 @@ class CatalogServicePLUS implements CatalogUseCase_PLUS {
     }
 
 
-    protected BigDecimal getTaxRate(String vat) {
+    protected BigDecimal getTaxRate() {
         final BigDecimal ONE_HUNDRED = new BigDecimal("100");
-        BigDecimal taxRatePercentage = new BigDecimal(vat).divide(ONE_HUNDRED);
+        BigDecimal taxRatePercentage = new BigDecimal(this.getVat()).divide(ONE_HUNDRED);
         BigDecimal taxRate = taxRatePercentage.add(BigDecimal.ONE);
         return taxRate;
     }
@@ -46,6 +52,11 @@ class CatalogServicePLUS implements CatalogUseCase_PLUS {
 
     @Override
     public BigDecimal countTotalPrice() {
-        return new BigDecimal("4");
+        return catalogUseCase_basic.countTotalPrice().multiply(this.getTaxRate()).setScale(2, RoundingMode.HALF_UP);
+    }
+
+    @Override
+    public String showProfile() {
+        return "You are in " + "PLUS " + "Shop" + "\nTOTAL price= SumPrice*TAX";
     }
 }

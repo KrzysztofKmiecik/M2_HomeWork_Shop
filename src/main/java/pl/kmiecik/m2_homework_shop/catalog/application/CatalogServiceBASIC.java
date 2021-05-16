@@ -8,6 +8,7 @@ import pl.kmiecik.m2_homework_shop.catalog.domain.CatalogRepository;
 import pl.kmiecik.m2_homework_shop.catalog.domain.Product;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -29,10 +30,16 @@ class CatalogServiceBASIC implements CatalogUseCase_BASIC {
 
     @Override
     public BigDecimal countTotalPrice() {
-        return repository.findAll()
+        BigDecimal totalPrice = repository.findAll()
                 .stream()
                 .map(product -> product.getPrice())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return totalPrice.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    @Override
+    public String showProfile() {
+        return "You are in " + "BASIC " + "Shop" + "\nTOTAL price= SumPrice";
     }
 
 

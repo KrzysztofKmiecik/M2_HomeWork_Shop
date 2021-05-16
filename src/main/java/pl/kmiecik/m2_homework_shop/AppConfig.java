@@ -15,7 +15,7 @@ public class AppConfig {
 
     @Bean
     public CatalogUseCase MyServiceAlias(@Value("${spring.profiles.active}") String qualifier) {
-        return (CatalogUseCase) context.getBean("catalogService"+qualifier);
+        return (CatalogUseCase) context.getBean("catalogService" + qualifier);
     }
 
 }
